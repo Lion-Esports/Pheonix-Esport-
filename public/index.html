@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pheonix Esport V2</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.admin-tools{max-width:1200px;margin:auto}
+.admin-panel{background:#111;padding:24px;border-radius:16px;margin-top:20px}
+.admin-panel input,.admin-panel select{width:100%;padding:12px;margin:5px 0 10px;border-radius:8px;border:1px solid #444;background:#1c1c1c;color:#fff;box-sizing:border-box}
+.admin-table{width:100%;overflow:auto}
+.admin-table table{width:100%;min-width:700px;border-collapse:collapse}
+.admin-table th,.admin-table td{padding:10px;border-bottom:1px solid #333;text-align:left}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.admin-msg{min-height:22px}
+.small{padding:7px 10px!important;font-size:13px}
+.danger{background:#8b1e1e!important}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo">🔥 PHEONIX <b>ESPORT</b></a>
+  <nav>
+    <a href="#tournaments">Tournaments</a>
+    <a href="#leaderboard">Leaderboard</a>
+    <a href="#register">Register</a>
+    <a href="#admin">Admin</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <small>⚡ COMPETITIVE GAMING PLATFORM</small>
+    <h1>RISE. COMPETE.<br><span>DOMINATE.</span></h1>
+    <p>Join Pheonix Esport tournaments and compete for glory and prize pools.</p>
+    <a class="btn" href="#tournaments">View Tournaments</a>
+  </div>
+  <div class="heroCard">
+    <b>🔥 PHOENIX CLASH #01</b>
+    <h2>₹10,000</h2>
+    <p>Free Fire • Squad • LIVE</p>
+    <div id="clock">LIVE NOW</div>
+  </div>
+</section>
+
+<section id="tournaments" class="section">
+  <small>COMPETE</small>
+  <h2>Tournaments</h2>
+  <div id="tournamentsGrid" class="grid"></div>
+</section>
+
+<section id="leaderboard" class="section dark">
+  <small>RANKINGS</small>
+  <h2>Leaderboard</h2>
+  <div id="leaderboardBox"></div>
+</section>
+
+<section id="register" class="section">
+  <div class="panel">
+    <div>
+      <small>JOIN THE BATTLE</small>
+      <h2>Team Registration</h2>
+      <p>Submit your team details. Payment remains pending until a verified payment gateway confirms the transaction.</p>
+    </div>
+    <form id="reg">
+      <input name="team" placeholder="Team name" required>
+      <input name="captain" placeholder="Captain name" required>
+      <input name="phone" placeholder="10-digit phone" inputmode="numeric" required>
+      <select name="tournament_id" id="tournament" required></select>
+      <select name="game" required>
+        <option>Free Fire</option><option>BGMI</option><option>Valorant</option>
+      </select>
+      <select name="payment_method" required>
+        <option>UPI</option><option>PhonePe</option><option>Google Pay</option><option>Paytm</option>
+      </select>
+      <button class="btn">Register Team</button>
+      <p id="msg"></p>
+    </form>
+  </div>
+</section>
+
+<section id="admin" class="section dark">
+  <div class="admin-tools">
+    <small>SECURE ADMIN AREA</small>
+    <h2>Admin Login</h2>
+
+    <div id="adminLoginPanel" class="admin-panel">
+      <form id="adminLoginForm">
+        <input id="adminUsername" placeholder="Admin username" autocomplete="username" required>
+        <input id="adminPassword" type="password" placeholder="Admin password" autocomplete="current-password" required>
+        <button class="btn" type="submit">Login to Dashboard</button>
+        <p id="adminLoginMsg" class="admin-msg"></p>
+      </form>
+    </div>
+
+    <div id="adminDashboard" class="admin-panel" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div>
+          <small>AUTHENTICATED</small>
+          <h2>Admin Dashboard</h2>
+        </div>
+        <button id="adminLogout" class="btn">Logout</button>
+      </div>
+
+      <div class="admin-grid">
+        <div class="admin-panel">
+          <h3>Create / Edit Tournament</h3>
+          <form id="tournamentAdminForm">
+            <input type="hidden" name="id" id="tournamentAdminId">
+            <input name="name" id="adminTournamentName" placeholder="Tournament name" required>
+            <input name="game" id="adminTournamentGame" placeholder="Game" required>
+            <input name="mode" id="adminTournamentMode" placeholder="Mode e.g. Squad" required>
+            <input name="prize" id="adminTournamentPrize" placeholder="Prize e.g. ₹10,000" required>
+            <input name="entry" id="adminTournamentEntry" type="number" min="0" placeholder="Entry fee" required>
+            <select name="status" id="adminTournamentStatus">
+              <option>UPCOMING</option><option>LIVE</option><option>COMPLETED</option>
+            </select>
+            <button id="tournamentSaveBtn" class="btn" type="submit">Create Tournament</button>
+            <p id="adminTournamentMsg" class="admin-msg"></p>
+          </form>
+        </div>
+
+        <div class="admin-panel">
+          <h3>Add / Edit Leaderboard</h3>
+          <form id="leaderboardAdminForm">
+            <input type="hidden" name="id" id="leaderboardAdminId">
+            <input name="team" id="leaderboardTeam" placeholder="Team name" required>
+            <input name="matches" id="leaderboardMatches" type="number" min="0" placeholder="Matches" required>
+            <input name="wins" id="leaderboardWins" type="number" min="0" placeholder="Wins" required>
+            <input name="points" id="leaderboardPoints" type="number" min="0" placeholder="Points" required>
+            <button id="leaderboardSaveBtn" class="btn" type="submit">Add Team</button>
+            <p id="leaderboardAdminMsg" class="admin-msg"></p>
+          </form>
+        </div>
+      </div>
+
+      <h3>Tournaments</h3>
+      <div class="admin-table">
+        <table>
+          <thead><tr><th>ID</th><th>Name</th><th>Game</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="adminTournaments"></tbody>
+        </table>
+      </div>
+
+      <h3>Registrations & Payment Verification</h3>
+      <div class="admin-table">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Team</th><th>Captain</th><th>Phone</th><th>Tournament</th><th>Payment</th><th>Status</th></tr>
+          </thead>
+          <tbody id="registrationsAdmin"></tbody>
+        </table>
+      </div>
+
+      <h3>Leaderboard</h3>
+      <div class="admin-table">
+        <table>
+          <thead><tr><th>ID</th><th>Team</th><th>Matches</th><th>Wins</th><th>Points</th><th>Actions</th></tr></thead>
+          <tbody id="leaderboardAdmin"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>🔥 Pheonix Esport • 2026</footer>
+<script src="app.js"></script>
+</body>
+</html>
